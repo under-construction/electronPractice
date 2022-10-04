@@ -11,8 +11,18 @@ const createWindow = () => {
     })
 
     win.loadFile('index.html')
+    // win.loadURL('https://google.com')
+
+    const contents = win.webContents
+    console.log(contents)
 }
 
 app.whenReady().then(() => {
     createWindow();
 })
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        console.log("ercu")
+    }
+  })
