@@ -11,3 +11,10 @@ func();
 const inputTitle = document.getElementById('title');
 const btnTitleChange = document.getElementById('btnTitleChange');
 btnTitleChange.addEventListener('click', () => { window.versionsaq.setTitle(inputTitle.value) });
+
+const btnOpenFile = document.getElementById('btn');
+const filePathElement = document.getElementById('filePath')
+btnOpenFile.addEventListener('click', async () => {
+    const filePath = await window.versionsaq.fileOpen();
+    filePathElement.innerText = filePath;
+});
