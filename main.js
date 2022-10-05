@@ -24,6 +24,7 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-        console.log("ercu")
+        console.log("ercu");
+        app.quit();
     }
   })
