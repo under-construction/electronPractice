@@ -18,7 +18,14 @@ const createWindow = () => {
     console.log(contents)
 }
 
+function handleSetTitle(event, title) {
+    const webContents = event.sender;
+    const win = BrowserWindow.fromWebContents(webContents);
+    win.setTitle(title);
+}
+
 app.whenReady().then(() => {
+    ipcMain.on('set-title123', handleSetTitle);
     createWindow();
 })
 
