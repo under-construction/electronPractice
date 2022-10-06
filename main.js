@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, nativeTheme } = require('electron')
 const path = require('path')
 
 const createWindow = () => {
@@ -11,11 +11,26 @@ const createWindow = () => {
     })
 
     ipcMain.handle('ping', () => 'pong');
+
+    ipcMain.handle('dark-mode:toggle', () => {
+        if (nativeTheme.shouldUseDarkColors) {
+            nativeTheme.themeSource = 'light'
+        }
+        else {
+            nativeTheme.themeSource = 'dark'
+        }
+        return nativeTheme.shouldUseDarkColors
+    })
+    
+    ipcMain.handle('dark-mode:system', () => {
+        nativeTheme.themeSource = 'system'
+    })
+
     win.loadFile('index.html')
     // win.loadURL('https://google.com')
 
-    const contents = win.webContents
-    console.log(contents)
+    // const contents = win.webContents
+    // console.log(contents)
 }
 
 function handleSetTitle(event, title) {
