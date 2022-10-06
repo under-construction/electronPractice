@@ -8,3 +8,8 @@ contextBridge.exposeInMainWorld('versionsaq', {
     setTitle: (title) => ipcRenderer.send('set-title123', title),
     fileOpen: () => ipcRenderer.invoke('openFile123')
 })
+
+contextBridge.exposeInMainWorld('darkMode', {
+    toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+    system: () => ipcRenderer.invoke('dark-mode:system')
+})
