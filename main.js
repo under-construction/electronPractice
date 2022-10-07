@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, nativeTheme } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, nativeTheme, net } = require('electron')
 const path = require('path')
 
 const createWindow = () => {
@@ -24,6 +24,44 @@ const createWindow = () => {
     
     ipcMain.handle('dark-mode:system', () => {
         nativeTheme.themeSource = 'system'
+    })
+
+    ipcMain.handle('getRequest', () => {
+        const request = net.request({
+            method: 'GET',
+            protocol: 'https:',
+            hostname: 'localhost',
+            port: 7295,
+            path: '/WeatherForecast',
+        });
+        request.on('response', (response) => {
+            console.log(`STATUS: ${response.statusCode}`);
+            console.log("***************")
+            console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+            console.log("***************")
+     
+            response.on('data', (chunk) => {
+                console.log(`BODY: ${chunk}`)
+            });
+        });
+        request.on('finish', () => {
+            console.log("***************")
+            console.log('Request is Finished')
+        });
+        request.on('abort', () => {
+            console.log("***************")
+            console.log('Request is Aborted')
+        });
+        request.on('error', (error) => {
+            console.log("***************")
+            console.log(`ERROR: ${JSON.stringify(error)}`)
+        });
+        request.on('close', () => {
+            console.log("***************")
+            console.log('Last Transaction has occurred')
+        });
+        request.setHeader('Content-Type', 'application/json');
+        request.end();
     })
 
     win.loadFile('index.html')

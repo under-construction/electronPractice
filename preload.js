@@ -13,3 +13,7 @@ contextBridge.exposeInMainWorld('darkMode', {
     toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
     system: () => ipcRenderer.invoke('dark-mode:system')
 })
+
+contextBridge.exposeInMainWorld('getRequest', {
+    x: () => ipcRenderer.invoke('getRequest')
+})
