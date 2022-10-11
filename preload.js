@@ -15,5 +15,6 @@ contextBridge.exposeInMainWorld('darkMode', {
 })
 
 contextBridge.exposeInMainWorld('getRequest', {
-    x: () => ipcRenderer.invoke('getRequest')
+    x: () => ipcRenderer.invoke('getRequest'),
+    y: () => ipcRenderer.invoke('logResponse')
 })
