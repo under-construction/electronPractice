@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain, dialog, nativeTheme, net } = require('electron')
 const path = require('path')
 
+let responseData;
+
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -42,6 +44,7 @@ const createWindow = () => {
      
             response.on('data', (chunk) => {
                 console.log(`BODY: ${chunk}`)
+                responseData = chunk
             });
         });
         request.on('finish', () => {
@@ -63,6 +66,8 @@ const createWindow = () => {
         request.setHeader('Content-Type', 'application/json');
         request.end();
     })
+
+    ipcMain.handle('logResponse', handleLogResponse)
 
     win.loadFile('index.html')
     // win.loadURL('https://google.com')
@@ -87,9 +92,16 @@ async function handleFileOpen() {
     }
 }
 
+async function handleLogResponse() {
+    let json = responseData.toJSON();
+    let josinify = JSON.parse(responseData);
+    return await responseData.toString();
+}
+
 app.whenReady().then(() => {
     ipcMain.on('set-title123', handleSetTitle);
     ipcMain.handle('openFile123', handleFileOpen);
+    // ipcMain.handle('logResponse', handleLogResponse)
     createWindow();
 })
 
