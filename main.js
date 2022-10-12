@@ -33,8 +33,8 @@ const createWindow = () => {
             method: 'GET',
             protocol: 'https:',
             hostname: 'localhost',
-            port: 7295,
-            path: '/WeatherForecast',
+            port: 7020,
+            path: '/api/User',
         });
         request.on('response', (response) => {
             console.log(`STATUS: ${response.statusCode}`);
@@ -64,6 +64,36 @@ const createWindow = () => {
             console.log('Last Transaction has occurred')
         });
         request.setHeader('Content-Type', 'application/json');
+        request.end();
+    })
+
+    ipcMain.handle('postRequest', () => {
+        var body = JSON.stringify({ name: 'Gorkem' });
+        const request = net.request({
+            method: 'POST',
+            protocol: 'https:',
+            hostname: 'localhost',
+            port: 7020,
+            path: '/api/User'
+        });
+        request.on('finish', () => {
+            console.log("***************")
+            console.log('Request is Finished')
+        });
+        request.on('abort', () => {
+            console.log("***************")
+            console.log('Request is Aborted')
+        });
+        request.on('error', (error) => {
+            console.log("***************")
+            console.log(`ERROR: ${JSON.stringify(error)}`)
+        });
+        request.on('close', () => {
+            console.log("***************")
+            console.log('Last Transaction has occurred')
+        });
+        request.setHeader('Content-Type', 'application/json');
+        request.write(body, 'UTF-8');
         request.end();
     })
 
