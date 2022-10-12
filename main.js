@@ -28,82 +28,7 @@ const createWindow = () => {
         nativeTheme.themeSource = 'system'
     })
 
-    ipcMain.handle('getRequest', () => {
-        const request = net.request({
-            method: 'GET',
-            protocol: 'https:',
-            hostname: 'localhost',
-            port: 7020,
-            path: '/api/User',
-        });
-        request.on('response', (response) => {
-            console.log(`STATUS: ${response.statusCode}`);
-            console.log("***************")
-            console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
-            console.log("***************")
-     
-            response.on('data', (chunk) => {
-                console.log(`BODY: ${chunk}`)
-                responseData = chunk
-            });
-        });
-        request.on('finish', () => {
-            console.log("***************")
-            console.log('Request is Finished')
-        });
-        request.on('abort', () => {
-            console.log("***************")
-            console.log('Request is Aborted')
-        });
-        request.on('error', (error) => {
-            console.log("***************")
-            console.log(`ERROR: ${JSON.stringify(error)}`)
-        });
-        request.on('close', () => {
-            console.log("***************")
-            console.log('Last Transaction has occurred')
-        });
-        request.setHeader('Content-Type', 'application/json');
-        request.end();
-    })
-
-    ipcMain.handle('postRequest', () => {
-        var body = JSON.stringify({ name: 'Gorkem' });
-        const request = net.request({
-            method: 'POST',
-            protocol: 'https:',
-            hostname: 'localhost',
-            port: 7020,
-            path: '/api/User'
-        });
-        request.on('finish', () => {
-            console.log("***************")
-            console.log('Request is Finished')
-        });
-        request.on('abort', () => {
-            console.log("***************")
-            console.log('Request is Aborted')
-        });
-        request.on('error', (error) => {
-            console.log("***************")
-            console.log(`ERROR: ${JSON.stringify(error)}`)
-        });
-        request.on('close', () => {
-            console.log("***************")
-            console.log('Last Transaction has occurred')
-        });
-        request.setHeader('Content-Type', 'application/json');
-        request.write(body, 'UTF-8');
-        request.end();
-    })
-
-    ipcMain.handle('logResponse', handleLogResponse)
-
     win.loadFile('index.html')
-    // win.loadURL('https://google.com')
-
-    // const contents = win.webContents
-    // console.log(contents)
 }
 
 function handleSetTitle(event, title) {
@@ -123,15 +48,85 @@ async function handleFileOpen() {
 }
 
 async function handleLogResponse() {
-    let json = responseData.toJSON();
-    let josinify = JSON.parse(responseData);
+    let jsonData = JSON.parse(responseData);
     return await responseData.toString();
+}
+
+async function getRequest() {
+    const request = net.request({
+        method: 'GET',
+        protocol: 'https:',
+        hostname: 'localhost',
+        port: 7020,
+        path: '/api/User',
+    });
+    request.on('response', (response) => {
+        console.log(`STATUS: ${response.statusCode}`);
+        console.log("***************")
+        console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+        console.log("***************")
+ 
+        response.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`)
+            responseData = chunk
+        });
+    });
+    request.on('finish', () => {
+        console.log("***************")
+        console.log('Request is Finished')
+    });
+    request.on('abort', () => {
+        console.log("***************")
+        console.log('Request is Aborted')
+    });
+    request.on('error', (error) => {
+        console.log("***************")
+        console.log(`ERROR: ${JSON.stringify(error)}`)
+    });
+    request.on('close', () => {
+        console.log("***************")
+        console.log('Last Transaction has occurred')
+    });
+    request.setHeader('Content-Type', 'application/json');
+    request.end();
+}
+
+async function postRequest() {
+    var body = JSON.stringify({ name: 'Gorkem' });
+    const request = net.request({
+        method: 'POST',
+        protocol: 'https:',
+        hostname: 'localhost',
+        port: 7020,
+        path: '/api/User'
+    });
+    request.on('finish', () => {
+        console.log("***************")
+        console.log('Request is Finished')
+    });
+    request.on('abort', () => {
+        console.log("***************")
+        console.log('Request is Aborted')
+    });
+    request.on('error', (error) => {
+        console.log("***************")
+        console.log(`ERROR: ${JSON.stringify(error)}`)
+    });
+    request.on('close', () => {
+        console.log("***************")
+        console.log('Last Transaction has occurred')
+    });
+    request.setHeader('Content-Type', 'application/json');
+    request.write(body, 'UTF-8');
+    request.end();
 }
 
 app.whenReady().then(() => {
     ipcMain.on('set-title123', handleSetTitle);
     ipcMain.handle('openFile123', handleFileOpen);
-    // ipcMain.handle('logResponse', handleLogResponse)
+    ipcMain.handle('logResponse', handleLogResponse);
+    ipcMain.handle('getRequest', getRequest);
+    ipcMain.handle('postRequest', postRequest);
     createWindow();
 })
 
