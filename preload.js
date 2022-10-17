@@ -15,10 +15,17 @@ contextBridge.exposeInMainWorld('darkMode', {
 })
 
 contextBridge.exposeInMainWorld('get', {
-    x: () => ipcRenderer.invoke('getRequest'),
-    y: () => ipcRenderer.invoke('logResponse')
+    x: async () => {
+        var result = await ipcRenderer.invoke('getRequest');
+    },
 })
 
 contextBridge.exposeInMainWorld('post', {
     x: () => ipcRenderer.invoke('postRequest')
+})
+
+ipcRenderer.on('gotData', (event, json) => {
+    console.log(json);
+    const lblResponse = document.getElementById('lblResponse');
+    lblResponse.innerText = json;
 })

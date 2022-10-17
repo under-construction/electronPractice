@@ -1,10 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog, nativeTheme, net } = require('electron')
 const path = require('path')
 
-let responseData;
-
+var win;
 const createWindow = () => {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -65,10 +64,15 @@ async function getRequest() {
         console.log("***************")
         console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
         console.log("***************")
- 
+        let responseData = [];
+
         response.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`)
-            responseData = chunk
+            responseData = chunk;
+        });
+
+        response.on('end', () => {
+            win.webContents.send('gotData', responseData.toString());
         });
     });
     request.on('finish', () => {
