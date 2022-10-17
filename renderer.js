@@ -1,16 +1,6 @@
-const btnGet = document.getElementById('btnGet');
-const btnPrint = document.getElementById('btnPrint');
-const lblResponse = document.getElementById('lblResponse');
 btnGet.addEventListener('click', async () => {
     await window.get.x()
-    // const responseString = await window.getRequest.y()
-    // lblResponse.innerText = 'responseString';
 });
-btnPrint.addEventListener('click', async () => {
-    let responseString = await window.get.y();   
-    let json = JSON.parse(responseString);
-    lblResponse.innerText = responseString
-})
 
 const btnPost = document.getElementById('btnPost');
 btnPost.addEventListener('click', async () => {
