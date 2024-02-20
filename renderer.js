@@ -1,3 +1,4 @@
+const btnGet = document.getElementById('btnGet');
 btnGet.addEventListener('click', async () => {
     await window.get.x()
 });
@@ -8,10 +9,10 @@ btnPost.addEventListener('click', async () => {
 });
 
 const information = document.getElementById('info')
-information.innerText = `This app is using Chrome (v${versionsaq.chrome()}), Node.js (v${versionsaq.node()}), and Electron (v${versionsaq.electron()})`
+information.innerText = `This app is using Chrome (v${versions123.chrome()}), Node.js (v${versions123.node()}), and Electron (v${versions123.electron()})`
 
 const func = async () => {
-    const response = await window.versionsaq.ping();
+    const response = await window.versions123.ping();
     console.log(response);
 }
 
@@ -19,12 +20,12 @@ func();
 
 const inputTitle = document.getElementById('title');
 const btnTitleChange = document.getElementById('btnTitleChange');
-btnTitleChange.addEventListener('click', () => { window.versionsaq.setTitle(inputTitle.value) });
+btnTitleChange.addEventListener('click', () => { window.versions123.setTitle(inputTitle.value) });
 
 const btnOpenFile = document.getElementById('btn');
 const filePathElement = document.getElementById('filePath')
 btnOpenFile.addEventListener('click', async () => {
-    const filePath = await window.versionsaq.fileOpen();
+    const filePath = await window.versions123.fileOpen();
     filePathElement.innerText = filePath;
 });
 

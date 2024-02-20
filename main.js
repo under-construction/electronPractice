@@ -52,13 +52,14 @@ async function handleLogResponse() {
 }
 
 async function getRequest() {
-    const request = net.request({
-        method: 'GET',
-        protocol: 'https:',
-        hostname: 'localhost',
-        port: 7020,
-        path: '/api/User',
-    });
+    // const request = net.request({
+    //     method: 'GET',
+    //     protocol: 'https:',
+    //     hostname: 'localhost',
+    //     port: 7020,
+    //     path: '/api/User',
+    // });
+    const request = net.request('https://www.boredapi.com/api/activity');
     request.on('response', (response) => {
         console.log(`STATUS: ${response.statusCode}`);
         console.log("***************")
